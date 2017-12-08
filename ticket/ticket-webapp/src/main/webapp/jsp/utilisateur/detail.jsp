@@ -9,8 +9,12 @@
 </head>
 
 <body>
-    <h2>Bienvenue sur l'application Ticket</h2>
+    <h2>Détail de l'utilisateur</h2>
 
-    <s:a action="projet_list">Liste des projets</s:a>
+    <ul>
+        <li>ID : <s:property value="utilisateur.id" /></li>
+        <li>Nom : <s:property value="utilisateur.nom" /></li>
+        <li>Prénom : <s:property value="utilisateur.prenom" /></li>
+    </ul>
 </body>
 </html>

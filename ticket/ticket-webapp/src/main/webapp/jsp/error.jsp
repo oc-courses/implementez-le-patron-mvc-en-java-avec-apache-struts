@@ -9,8 +9,8 @@
 </head>
 
 <body>
-    <h2>Bienvenue sur l'application Ticket</h2>
+    <h2>Une erreur s'est produite</h2>
 
-    <s:a action="projet_list">Liste des projets</s:a>
+    <s:actionerror />
 </body>
 </html>
