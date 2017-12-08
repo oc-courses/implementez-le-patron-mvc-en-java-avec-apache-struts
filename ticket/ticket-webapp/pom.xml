@@ -62,6 +62,12 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
+        <!-- Framework Apache Struts -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+        </dependency>
+
 
         <!-- ===== Tests ===== -->
         <dependency>
