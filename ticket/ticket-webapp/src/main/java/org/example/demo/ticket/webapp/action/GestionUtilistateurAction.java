@@ -1,5 +1,7 @@
 package org.example.demo.ticket.webapp.action;
 
+import java.util.Collections;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import org.example.demo.ticket.model.bean.utilisateur.Utilisateur;
@@ -40,12 +42,12 @@ public class GestionUtilistateurAction extends ActionSupport {
      */
     public String doDetail() {
         if (id == null) {
-            this.addActionError("Vous devez indiquer un id d'utilisateur");
+            this.addActionError(getText("error.user.missing.id"));
         } else {
             try {
                 utilisateur = WebappHelper.getManagerFactory().getUtilisateurManager().getUtilisateur(id);
             } catch (NotFoundException pE) {
-                this.addActionError("Utilisateur non trouvé. ID = " + id);
+                this.addActionError(getText("error.user.notfound", Collections.singletonList(id)));
             }
         }
 

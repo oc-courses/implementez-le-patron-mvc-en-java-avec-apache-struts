@@ -1,5 +1,6 @@
 package org.example.demo.ticket.webapp.action;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -56,12 +57,12 @@ public class GestionProjetAction extends ActionSupport {
      */
     public String doDetail() {
         if (id == null) {
-            this.addActionError("Vous devez indiquer un id de projet");
+            this.addActionError(getText("error.project.missing.id"));
         } else {
             try {
                 projet = WebappHelper.getManagerFactory().getProjetManager().getProjet(id);
             } catch (NotFoundException pE) {
-                this.addActionError("Projet non trouvé. ID = " + id);
+                this.addActionError(getText("error.project.notfound", Collections.singletonList(id)));
             }
         }
 

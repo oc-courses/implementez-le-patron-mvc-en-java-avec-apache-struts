@@ -8,8 +8,12 @@
 </head>
 
 <body>
-    <h2>Bienvenue sur l'application Ticket</h2>
+    <h2><s:text name="home.welcome" /></h2>
 
-    <s:a action="projet_list">Liste des projets</s:a>
+    <nav>
+        <s:a action="projet_list">
+            <s:text name="nav.listProjet" />
+        </s:a>
+    </nav>
 </body>
 </html>
