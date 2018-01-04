@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <s:actionmessage />
+
     <h2>Détail du projet</h2>
 
     <ul>
