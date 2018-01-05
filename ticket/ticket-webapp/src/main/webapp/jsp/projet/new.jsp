@@ -8,8 +8,7 @@
 </head>
 
 <body>
-    <s:actionerror/>
-    <s:actionmessage/>
+    <%@ include file="../_include/header.jsp"%>
 
     <h2>Création d'un projet</h2>
 

@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <%@ include file="../_include/header.jsp" %>
+
     <h2>Détail de l'utilisateur</h2>
 
     <ul>

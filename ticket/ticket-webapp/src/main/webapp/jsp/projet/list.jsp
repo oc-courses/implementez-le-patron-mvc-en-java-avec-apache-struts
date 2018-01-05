@@ -8,9 +8,10 @@
 </head>
 
 <body>
+    <%@ include file="../_include/header.jsp"%>
+
     <h2>Liste des projets</h2>
 
-    <s:a action="projet_new">Créer un nouveau projet</s:a>
 
     <ul>
         <s:iterator value="listProjet">

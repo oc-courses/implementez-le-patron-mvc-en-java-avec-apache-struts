@@ -8,13 +8,9 @@
 </head>
 
 <body>
-    <h2><s:text name="home.welcome" /></h2>
+    <%@ include file="_include/header.jsp"%>
 
-    <nav>
-        <s:a action="projet_list">
-            <s:text name="nav.listProjet" />
-        </s:a>
-    </nav>
+    <h2><s:text name="home.welcome" /></h2>
 
     <footer>
         <s:a action="index">

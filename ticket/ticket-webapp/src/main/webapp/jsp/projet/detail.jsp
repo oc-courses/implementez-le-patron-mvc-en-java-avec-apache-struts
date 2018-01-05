@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <s:actionmessage />
+    <%@ include file="../_include/header.jsp"%>
 
     <h2>Détail du projet</h2>
 
