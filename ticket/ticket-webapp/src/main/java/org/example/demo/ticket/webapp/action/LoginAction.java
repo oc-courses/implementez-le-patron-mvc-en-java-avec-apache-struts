@@ -1,14 +1,15 @@
 package org.example.demo.ticket.webapp.action;
 
 import java.util.Map;
+import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 
+import org.example.demo.ticket.business.contract.ManagerFactory;
 import org.example.demo.ticket.model.bean.utilisateur.Utilisateur;
 import org.example.demo.ticket.model.exception.NotFoundException;
-import org.example.demo.ticket.webapp.WebappHelper;
 
 
 /**
@@ -18,6 +19,9 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 
     // ==================== Attributs ====================
+    @Inject
+    private ManagerFactory managerFactory;
+
     // ----- Paramètres en entrée
     private String login;
     private String password;
@@ -56,8 +60,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
         if (!StringUtils.isAllEmpty(login, password)) {
             try {
                 Utilisateur vUtilisateur
-                        = WebappHelper.getManagerFactory().getUtilisateurManager()
-                                      .getUtilisateur(login, password);
+                        = managerFactory.getUtilisateurManager()
+                                        .getUtilisateur(login, password);
 
                 // Ajout de l'utilisateur en session
                 this.session.put("user", vUtilisateur);

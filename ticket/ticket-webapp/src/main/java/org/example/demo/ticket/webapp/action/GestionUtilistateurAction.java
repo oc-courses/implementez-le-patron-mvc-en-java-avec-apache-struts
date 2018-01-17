@@ -2,11 +2,13 @@ package org.example.demo.ticket.webapp.action;
 
 import java.util.Collections;
 
+import javax.inject.Inject;
+
 import com.opensymphony.xwork2.ActionSupport;
 
+import org.example.demo.ticket.business.contract.ManagerFactory;
 import org.example.demo.ticket.model.bean.utilisateur.Utilisateur;
 import org.example.demo.ticket.model.exception.NotFoundException;
-import org.example.demo.ticket.webapp.WebappHelper;
 
 
 /**
@@ -16,6 +18,9 @@ public class GestionUtilistateurAction extends ActionSupport {
 
 
     // ==================== Attributs ====================
+    @Inject
+    private ManagerFactory managerFactory;
+
     // ----- Paramètres en entrée
     private Integer id;
 
@@ -45,7 +50,7 @@ public class GestionUtilistateurAction extends ActionSupport {
             this.addActionError(getText("error.user.missing.id"));
         } else {
             try {
-                utilisateur = WebappHelper.getManagerFactory().getUtilisateurManager().getUtilisateur(id);
+                utilisateur = managerFactory.getUtilisateurManager().getUtilisateur(id);
             } catch (NotFoundException pE) {
                 this.addActionError(getText("error.user.notfound", Collections.singletonList(id)));
             }

@@ -4,14 +4,16 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.opensymphony.xwork2.ActionSupport;
 
+import org.example.demo.ticket.business.contract.ManagerFactory;
 import org.example.demo.ticket.model.bean.projet.Projet;
 import org.example.demo.ticket.model.bean.utilisateur.Utilisateur;
 import org.example.demo.ticket.model.exception.FunctionalException;
 import org.example.demo.ticket.model.exception.NotFoundException;
 import org.example.demo.ticket.model.exception.TechnicalException;
-import org.example.demo.ticket.webapp.WebappHelper;
 
 
 /**
@@ -21,6 +23,9 @@ public class GestionProjetAction extends ActionSupport {
 
 
     // ==================== Attributs ====================
+    @Inject
+    private ManagerFactory managerFactory;
+
     // ----- Paramètres en entrée
     private Integer id;
 
@@ -56,7 +61,7 @@ public class GestionProjetAction extends ActionSupport {
      * @return success
      */
     public String doList() {
-        listProjet = WebappHelper.getManagerFactory().getProjetManager().getListProjet();
+        listProjet = managerFactory.getProjetManager().getListProjet();
         return ActionSupport.SUCCESS;
     }
 
@@ -70,7 +75,7 @@ public class GestionProjetAction extends ActionSupport {
             this.addActionError(getText("error.project.missing.id"));
         } else {
             try {
-                projet = WebappHelper.getManagerFactory().getProjetManager().getProjet(id);
+                projet = managerFactory.getProjetManager().getProjet(id);
             } catch (NotFoundException pE) {
                 this.addActionError(getText("error.project.notfound", Collections.singletonList(id)));
             }
@@ -100,8 +105,8 @@ public class GestionProjetAction extends ActionSupport {
             } else {
                 try {
                     Utilisateur vResponsable
-                        = WebappHelper.getManagerFactory().getUtilisateurManager()
-                                      .getUtilisateur(this.projet.getResponsable().getId());
+                        = managerFactory.getUtilisateurManager()
+                                        .getUtilisateur(this.projet.getResponsable().getId());
                     this.projet.setResponsable(vResponsable);
                 } catch (NotFoundException pEx) {
                     this.addFieldError("projet.responsable.id", pEx.getMessage());
@@ -113,7 +118,7 @@ public class GestionProjetAction extends ActionSupport {
             // Si pas d'erreur, ajout du projet...
             if (!this.hasErrors()) {
                 try {
-                    WebappHelper.getManagerFactory().getProjetManager().insertProjet(this.projet);
+                    managerFactory.getProjetManager().insertProjet(this.projet);
                     // Si ajout avec succès -> Result "success"
                     vResult = ActionSupport.SUCCESS;
                     this.addActionMessage("Projet ajouté avec succès");
@@ -133,7 +138,7 @@ public class GestionProjetAction extends ActionSupport {
 
         // Si on doit aller sur le formulaire de saisie, il faut ajouter les info nécessaires
         if (vResult.equals(ActionSupport.INPUT)) {
-            this.listUtilisateur = WebappHelper.getManagerFactory().getUtilisateurManager().getListUtilisateur();
+            this.listUtilisateur = managerFactory.getUtilisateurManager().getListUtilisateur();
         }
 
         return vResult;
