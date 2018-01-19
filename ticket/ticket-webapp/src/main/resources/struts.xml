@@ -59,5 +59,10 @@
         <action name="utilisateur_detail" class="org.example.demo.ticket.webapp.action.GestionUtilistateurAction" method="doDetail">
             <result>/jsp/utilisateur/detail.jsp</result>
         </action>
+
+
+        <action name="demo_convert" class="org.example.demo.ticket.webapp.action.DemoConvertAction">
+            <result name="input">/jsp/demo/convert.jsp</result>
+        </action>
     </package>
 </struts>
