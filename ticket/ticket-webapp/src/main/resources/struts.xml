@@ -3,14 +3,35 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-    <package name="default" extends="struts-default">
-        <!-- Action par défaut -->
-        <default-action-ref name="index" />
+    <!-- ===== Package de configuration de base ===== -->
+    <package name="base" abstract="true" extends="struts-default">
+        <interceptors>
+            <interceptor name="auth" class="org.example.demo.ticket.webapp.interceptor.AuthInterceptor" />
+
+            <interceptor-stack name="authenticatedStack">
+                <interceptor-ref name="auth" />
+                <interceptor-ref name="store">
+                    <param name="operationMode">AUTOMATIC</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
 
         <!-- Results globaux -->
         <global-results>
             <result name="error">/jsp/error.jsp</result>
+            <result name="error-forbidden" type="httpheader">
+                <param name="error">403</param>
+            </result>
         </global-results>
+    </package>
+
+
+    <!-- ===== Package pour les actions publiques ===== -->
+    <package name="public" extends="base">
+
+        <!-- Action par défaut -->
+        <default-action-ref name="index" />
 
         <!-- Action "index" -->
         <action name="index">
@@ -41,28 +62,33 @@
             <result>/jsp/projet/detail.jsp</result>
         </action>
 
+        <!-- Action affichant le détail d'un utilisateur -->
+        <action name="utilisateur_detail" class="org.example.demo.ticket.webapp.action.GestionUtilistateurAction" method="doDetail">
+            <result>/jsp/utilisateur/detail.jsp</result>
+        </action>
+
+        <action name="demo_convert" class="org.example.demo.ticket.webapp.action.DemoConvertAction">
+            <result name="input">/jsp/demo/convert.jsp</result>
+        </action>
+    </package>
+
+
+    <!-- ===== Package pour les actions privées ===== -->
+    <package name="private" extends="base">
+        <default-interceptor-ref name="authenticatedStack" />
+
         <!-- Actions permettant de créer un projet -->
         <action name="projet_new" class="org.example.demo.ticket.webapp.action.GestionProjetAction" method="doCreate">
             <interceptor-ref name="store">
                 <param name="operationMode">STORE</param>
             </interceptor-ref>
-            <interceptor-ref name="defaultStack" />
+            <interceptor-ref name="authenticatedStack" />
 
             <result name="input">/jsp/projet/new.jsp</result>
             <result name="success" type="redirectAction">
                 <param name="actionName">projet_detail</param>
                 <param name="id">${projet.id}</param>
             </result>
-        </action>
-
-        <!-- Action affichant le détail d'un utilisateur -->
-        <action name="utilisateur_detail" class="org.example.demo.ticket.webapp.action.GestionUtilistateurAction" method="doDetail">
-            <result>/jsp/utilisateur/detail.jsp</result>
-        </action>
-
-
-        <action name="demo_convert" class="org.example.demo.ticket.webapp.action.DemoConvertAction">
-            <result name="input">/jsp/demo/convert.jsp</result>
         </action>
     </package>
 </struts>
