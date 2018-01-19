@@ -14,7 +14,7 @@
 
     <s:form action="projet_new">
         <s:textfield name="projet.nom" label="Nom" requiredLabel="true" />
-        <s:select name="projet.responsable.id" label="Responsable"
+        <s:select name="projet.responsable" label="Responsable"
                   list="listUtilisateur" listKey="id" listValue="prenom"
                   emptyOption="true"
                   requiredLabel="true"/>

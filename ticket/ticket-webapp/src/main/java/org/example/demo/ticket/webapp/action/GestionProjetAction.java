@@ -98,20 +98,6 @@ public class GestionProjetAction extends ActionSupport {
 
         // ===== Validation de l'ajout de projet (projet != null)
         if (this.projet != null) {
-            // Récupération du responsable
-            if (this.projet.getResponsable() == null
-                || this.projet.getResponsable().getId() == null) {
-                this.addFieldError("projet.responsable.id", "ne doit pas être vide");
-            } else {
-                try {
-                    Utilisateur vResponsable
-                        = managerFactory.getUtilisateurManager()
-                                        .getUtilisateur(this.projet.getResponsable().getId());
-                    this.projet.setResponsable(vResponsable);
-                } catch (NotFoundException pEx) {
-                    this.addFieldError("projet.responsable.id", pEx.getMessage());
-                }
-            }
             // Date de création
             this.projet.setDateCreation(new Date());
 
