@@ -1,8 +1,10 @@
 package org.example.demo.ticket.webapp.action;
 
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -14,7 +16,7 @@ import org.example.demo.ticket.webapp.WebappHelper;
 /**
  * Action de gestion de la connexion/déconnexion d'un utilisateur
  */
-public class LoginAction extends ActionSupport implements SessionAware {
+public class LoginAction extends ActionSupport implements SessionAware, ServletRequestAware {
 
 
     // ==================== Attributs ====================
@@ -24,6 +26,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
     // ----- Eléments Struts
     private Map<String, Object> session;
+    private HttpServletRequest servletRequest;
 
 
     // ==================== Getters/Setters ====================
@@ -43,6 +46,10 @@ public class LoginAction extends ActionSupport implements SessionAware {
     @Override
     public void setSession(Map<String, Object> pSession) {
         this.session = pSession;
+    }
+    @Override
+    public void setServletRequest(HttpServletRequest pRequest) {
+        this.servletRequest = pRequest;
     }
 
 
@@ -76,8 +83,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
      * @return success
      */
     public String doLogout() {
-        // Suppression de l'utilisateur en session
-        this.session.remove("user");
+        // Invalidation de la session
+        this.servletRequest.getSession().invalidate();
 
         return ActionSupport.SUCCESS;
     }
