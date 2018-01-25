@@ -22,5 +22,7 @@
             [Français]
         </s:a>
     </footer>
+
+    <s:debug />
 </body>
 </html>
