@@ -8,14 +8,24 @@
         <interceptors>
             <interceptor name="auth" class="org.example.demo.ticket.webapp.interceptor.AuthInterceptor" />
 
+            <interceptor-stack name="applicationDefaultStack">
+                <interceptor-ref name="defaultStack">
+                    <param name="exception.logEnabled">true</param>
+                    <param name="exception.logLevel">ERROR</param>
+                    <param name="exception.logCategory">org.example.demo.ticket.webapp</param>
+                </interceptor-ref>
+            </interceptor-stack>
+
             <interceptor-stack name="authenticatedStack">
                 <interceptor-ref name="auth" />
                 <interceptor-ref name="store">
                     <param name="operationMode">AUTOMATIC</param>
                 </interceptor-ref>
-                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="applicationDefaultStack" />
             </interceptor-stack>
         </interceptors>
+
+        <default-interceptor-ref name="applicationDefaultStack" />
 
         <!-- Results globaux -->
         <global-results>
@@ -23,7 +33,31 @@
             <result name="error-forbidden" type="httpheader">
                 <param name="error">403</param>
             </result>
+
+            <result name="Exception" type="httpheader">
+                <param name="error">500</param>
+                <param name="parse">true</param>
+                <param name="errorMessage">%{exception}</param>
+            </result>
+            <result name="TechnicalException" type="httpheader">
+                <param name="error">500</param>
+                <param name="parse">true</param>
+                <param name="errorMessage">Erreur technique - %{exception.message}</param>
+            </result>
+            <result name="NotFoundException" type="httpheader">
+                <param name="error">404</param>
+                <param name="parse">true</param>
+                <param name="errorMessage">Objet introuvable - %{exception.message}</param>
+            </result>
         </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.Exception" result="Exception" />
+            <exception-mapping exception="org.example.demo.ticket.model.exception.TechnicalException"
+                               result="TechnicalException" />
+            <exception-mapping exception="org.example.demo.ticket.model.exception.NotFoundException"
+                               result="NotFoundException" />
+        </global-exception-mappings>
     </package>
 
 
@@ -67,9 +101,16 @@
             <result>/jsp/utilisateur/detail.jsp</result>
         </action>
 
+
+        <!-- Action de démonstration des TypeConverter -->
         <action name="demo_convert" class="org.example.demo.ticket.webapp.action.DemoConvertAction">
             <result name="input">/jsp/demo/convert.jsp</result>
         </action>
+
+        <!-- Actions de démonstration pour les Exceptions -->
+        <action name="demo_functionalException" class="org.example.demo.ticket.webapp.action.DemoExceptionAction" method="doFunctionalException" />
+        <action name="demo_notFoundException" class="org.example.demo.ticket.webapp.action.DemoExceptionAction" method="doNotFoundException" />
+        <action name="demo_technicalException" class="org.example.demo.ticket.webapp.action.DemoExceptionAction" method="doTechnicalException" />
     </package>
 
 
