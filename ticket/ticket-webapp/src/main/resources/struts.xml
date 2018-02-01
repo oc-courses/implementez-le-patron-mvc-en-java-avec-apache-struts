@@ -111,6 +111,12 @@
         <action name="demo_functionalException" class="org.example.demo.ticket.webapp.action.DemoExceptionAction" method="doFunctionalException" />
         <action name="demo_notFoundException" class="org.example.demo.ticket.webapp.action.DemoExceptionAction" method="doNotFoundException" />
         <action name="demo_technicalException" class="org.example.demo.ticket.webapp.action.DemoExceptionAction" method="doTechnicalException" />
+
+
+        <!-- Action de démonstration pour l'AJAX -->
+        <action name="demo_ajax" class="org.example.demo.ticket.webapp.action.DemoAjaxAction">
+            <result name="success">/jsp/demo/ajax.jsp</result>
+        </action>
     </package>
 
 
@@ -129,6 +135,35 @@
             <result name="success" type="redirectAction">
                 <param name="actionName">projet_detail</param>
                 <param name="id">${projet.id}</param>
+            </result>
+        </action>
+    </package>
+
+
+    <!-- ===== Package pour les actions AJAX ===== -->
+    <package name="ajax" extends="base, json-default">
+
+        <global-results>
+            <result name="error" type="json">
+                <param name="statusCode">400</param>
+                <param name="ignoreHierarchy">false</param>
+                <param name="includeProperties">actionErrors.*,fieldErrors.*</param>
+            </result>
+        </global-results>
+
+        <!-- Action renvoyant la liste des Projets -->
+        <action name="demo_ajax_getListProjet" class="org.example.demo.ticket.webapp.action.DemoAjaxAction"
+                method="doAjaxGetListProjet">
+            <result name="success" type="json">
+                <param name="root">listProjet</param>
+            </result>
+        </action>
+
+        <!-- Action renvoyant la liste des Versions d'un Projet -->
+        <action name="demo_ajax_getListVersion" class="org.example.demo.ticket.webapp.action.DemoAjaxAction"
+                method="doAjaxGetListVersion">
+            <result name="success" type="json">
+                <param name="root">listVersion</param>
             </result>
         </action>
     </package>
